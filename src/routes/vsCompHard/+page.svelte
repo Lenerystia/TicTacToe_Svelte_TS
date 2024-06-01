@@ -65,7 +65,7 @@
         for (let i = 0; i< board.length; i++){
             if (board[i] === null) {
 				board[i] = "O";
-				let score = minimax(board, 0, false);
+				let score = minimax(board, 0, false, -Infinity, Infinity);
 				board[i] = null;
 				if (score > bestScore) {
 					bestScore = score;
@@ -86,7 +86,7 @@
 	}
 
     //wykorzystując algorytm minmax
-    function minimax(newBoard: Array<Player | null>, depth: number, isMaximizing: boolean): number {
+    function minimax(newBoard: Array<Player | null>, depth: number, isMaximizing: boolean, alpha: number, beta: number): number {
 		let scores = {
 			"X": -10,
 			"O": 10,
@@ -104,9 +104,14 @@
 			for (let i = 0; i < newBoard.length; i++) {
 				if (newBoard[i] === null) {
 					newBoard[i] = "O";
-					let score = minimax(newBoard, depth + 1, false);
+					let score = minimax(newBoard, depth + 1, false, alpha, beta);
 					newBoard[i] = null;
 					bestScore = Math.max(score, bestScore);
+                    alpha = Math.max(alpha, score);
+                    //odcięcie dalszego sprawdzania
+					if (beta <= alpha) {
+						break;
+					}
 				}
 			}
 			return bestScore;
@@ -116,9 +121,13 @@
 			for (let i = 0; i < newBoard.length; i++) {
 				if (newBoard[i] === null) {
 					newBoard[i] = "X";
-					let score = minimax(newBoard, depth + 1, true);
+					let score = minimax(newBoard, depth + 1, true, alpha, beta);
 					newBoard[i] = null;
 					bestScore = Math.min(score, bestScore);
+                    beta = Math.min(beta, score);
+					if (beta <= alpha) {
+						break;
+					}
 				}
 			}
 			return bestScore;
