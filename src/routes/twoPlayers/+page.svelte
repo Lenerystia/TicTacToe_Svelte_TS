@@ -1,5 +1,6 @@
 <script lang="ts">
-	import '../app.css'
+	import '../../app.css'
+	import { toMenu } from '$lib/navigate';
 
 	type Player = "X"|"O"
     let turns: number = 0;
@@ -37,13 +38,12 @@
 			turns++;
 			if (checkWinner()){
 				winner = player;
-			} else{
-				player = turns % 2 === 0 ? "X" : "O";
+			} else if (turns < 9){
+				player = player === "X" ? "O" : "X";
 			}
 		}
 	}
 
-	
 	//funkcja sprawdza wszystkie kombinacje, jeśli któraś zawiera w całości jednego gracza - ten gracz wygrał
 	function checkWinner(): boolean{
 		for (let combination of winCombination){
@@ -78,4 +78,5 @@
 		{/each}
         </div>
 	<button class="game-reset-btn" on:click={handleReset}>Reset</button>
+	<button class="nav-btn" on:click={toMenu}>Powrót do Menu</button>
 </div>
