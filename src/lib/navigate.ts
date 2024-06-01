@@ -4,8 +4,11 @@ export function toMenu(){
     goto('/');
 }
 export function toTwoPlay(){
-    goto('twoPlayers')
+    goto('twoPlayers');
 }
-export function toVsComp(){
-    goto('vsComp')
+export function toVsCompE(){
+    goto('vsCompEasy');
+}
+export function toVsCompH(){
+    goto('vsCompHard');
 }
